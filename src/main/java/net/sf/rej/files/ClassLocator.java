@@ -18,11 +18,13 @@ package net.sf.rej.files;
 
 import java.io.Serializable;
 
+import net.sf.rej.jakub.StringContainerHelper;
+
 
 public class ClassLocator implements Serializable {
 	public static final long serialVersionUID = 1;
 
-    private String shortName = null;
+    private StringContainerHelper shortName = null;
     private String pkg = "";
     private String file = null;
 
@@ -45,7 +47,7 @@ public class ClassLocator implements Serializable {
         }
     }
 
-    public String getShortName() {
+    public StringContainerHelper getShortName() {
         return this.shortName;
     }
 
@@ -70,7 +72,7 @@ public class ClassLocator implements Serializable {
         return getShortName();
     }
 
-    public String getFullName() {
+    public StringContainerHelper getFullName() {
         if (this.pkg.length() == 0) {
             return getShortName();
         } else {

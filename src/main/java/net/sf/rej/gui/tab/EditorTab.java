@@ -176,9 +176,9 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 
 	private CodeEditorRenderer renderer = new CodeEditorRenderer();
 
-	DefaultListModel model = new DefaultListModel();
+	DefaultListModel<EditorRow> model = new DefaultListModel<>();
 
-	JList list = new JList(this.model) {
+	JList<EditorRow> list = new JList<EditorRow>(this.model) {
 		@Override
 		public String getToolTipText(MouseEvent event) {
 			int index = locationToIndex(event.getPoint());
@@ -722,7 +722,7 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 		this.rows.add(new BlankRow());
 
 		// Fields
-		java.util.List fields = cf.getFields();
+		java.util.List<Field> fields = cf.getFields();
 		for (int i = 0; i < fields.size(); i++) {
 			Field field = (Field) fields.get(i);
 
@@ -754,7 +754,7 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 		}
 
 		// Methods
-		java.util.List methods = cf.getMethods();
+		java.util.List<Method> methods = cf.getMethods();
 		for (int i = 0; i < methods.size(); i++) {
 			Method method = (Method) methods.get(i);
 
@@ -817,8 +817,7 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 							lineNumber = lnAttr.getLineNumber(dc.getPosition());
 						}
 						if (lvs != null) {
-							List locals = lvs
-									.getLocalVariable(dc.getPosition());
+							List<LocalVariable> locals = lvs.getLocalVariable(dc.getPosition());
 							for (int k = 0; k < locals.size(); k++) {
 								LocalVariable lv = (LocalVariable) locals
 										.get(k);
@@ -924,7 +923,7 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 			}
 
 			if (mdr != null) {
-				List codeRows = mdr.getCodeRows();
+				List<EditorRow> codeRows = mdr.getCodeRows();
 				for (int i = 0; i < codeRows.size(); i++) {
 					if (codeRows.get(i) instanceof LabelRow)
 						continue;
@@ -946,7 +945,7 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 			break;
 		}
 		case Link.ANCHOR_FIELD_DEF: {
-			List fields = this.classDef.getFields();
+			List<FieldDefRow> fields = this.classDef.getFields();
 			for (int i = 0; i < fields.size(); i++) {
 				FieldDefRow fdr = (FieldDefRow) fields.get(i);
 				if (fdr.getField().getSignatureLine().equals(
@@ -960,7 +959,7 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 			throw new AssertionError("Field in link not found: " + link.dump());
 		}
 		case Link.ANCHOR_METHOD_CODE: {
-			List methods = this.classDef.getMethods();
+			List<MethodDefRow> methods = this.classDef.getMethods();
 			for (int i = 0; i < methods.size(); i++) {
 				MethodDefRow mdr = (MethodDefRow) methods.get(i);
 				if (mdr.getMethod().getSignatureLine().equals(
@@ -984,7 +983,7 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 			throw new AssertionError("Method in link not found: " + link.dump());
 		}
 		case Link.ANCHOR_METHOD_DEF: {
-			List methods = this.classDef.getMethods();
+			List<MethodDefRow> methods = this.classDef.getMethods();
 			for (int i = 0; i < methods.size(); i++) {
 				MethodDefRow mdr = (MethodDefRow) methods.get(i);
 				if (mdr.getMethod().getSignatureLine().equals(
@@ -999,12 +998,12 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 
 		}
 		case Link.ANCHOR_METHOD_LV: {
-			List methods = this.classDef.getMethods();
+			List<MethodDefRow> methods = this.classDef.getMethods();
 			for (int i = 0; i < methods.size(); i++) {
 				MethodDefRow mdr = (MethodDefRow) methods.get(i);
 				if (mdr.getMethod().getSignatureLine().equals(
 						link.getMethod().getSignatureLine())) {
-					java.util.List lvRows = mdr.getLocalVariables();
+					List<LocalVariableDefRow> lvRows = mdr.getLocalVariables();
 					for (int j = 0; j < lvRows.size(); j++) {
 						LocalVariableDefRow lvdr = (LocalVariableDefRow) lvRows
 								.get(j);
@@ -1032,7 +1031,8 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 		editor.invokeModify();
 		if (!editor.wasCancelled()) {
 			GroupAction group = new GroupAction();
-			List choosers = editor.getChoosers();
+			// TODO: Get rid of Object
+			List<Object> choosers = editor.getChoosers();
 			modifyInstructionParameters(choosers, group, instruction);
             SystemFacade.getInstance().performAction(group);
 		}
@@ -1049,7 +1049,8 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
             if (code == null) {
             	group.add(new CreateCodeAttributeAction(mdr.getMethod().getAttributes(), this.cf.getPool()));
             }
-            List choosers = editor.getChoosers();
+            // TODO: Get rid of Object
+            List<Object> choosers = editor.getChoosers();
             Instruction instruction = editor.getInstruction();
             try {
             	instruction = instruction.createNewInstance();
@@ -1064,7 +1065,8 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 		}
 	}
 	
-	private void modifyInstructionParameters(List choosers, GroupAction group, Instruction instruction) {
+	// TODO: Get rid of Object
+	private void modifyInstructionParameters(List<Object> choosers, GroupAction group, Instruction instruction) {
 		Parameters params = instruction.getParameters();
         for (int i = 0; i < params.getCount(); i++) {
             switch (params.getType(i)) {
@@ -1225,7 +1227,7 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 		List<EditorRow> removeList = new ArrayList<EditorRow>();
 		// first, add all the methods and fields in the list of to-be-removed
 		// items
-		for (Object o : this.list.getSelectedValues()) {
+		for (EditorRow o : this.list.getSelectedValuesList()) {
 
 			if (o instanceof MethodDefRow || o instanceof FieldDefRow) {
 				removeList.add((EditorRow) o);
@@ -1235,7 +1237,7 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 		// then, add all the instructions that aren't in the methods that were
 		// removed(because there is no point in creating a remove for the
 		// instruction since it's going to be removed anyway
-		for (Object o : this.list.getSelectedValues()) {
+		for (EditorRow o : this.list.getSelectedValuesList()) {
 			if (o instanceof CodeRow) {
 				CodeRow cr = (CodeRow) o;
 				if (!removeList.contains(cr.getEnclosingMethodDef())) {
@@ -1388,8 +1390,8 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 		PlaintextSyntaxDrawer sd = new PlaintextSyntaxDrawer();
 		Imports imports = EditorFacade.getInstance().getImports(
 				this.classDef.getClassFile());
-		for (Object obj : this.list.getSelectedValues()) {
-			EditorRow er = (EditorRow) obj;
+		for (EditorRow er : this.list.getSelectedValuesList()) {
+			//EditorRow er = (EditorRow) obj;
 			renderer.render(er, sd, imports);
 			sd.drawLineBreak();
 		}
@@ -1402,8 +1404,8 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 		HTMLSyntaxDrawer sd = new HTMLSyntaxDrawer();
 		Imports imports = EditorFacade.getInstance().getImports(
 				this.classDef.getClassFile());
-		for (Object obj : this.list.getSelectedValues()) {
-			EditorRow er = (EditorRow) obj;
+		for (EditorRow er : this.list.getSelectedValuesList()) {
+			//EditorRow er = (EditorRow) obj;
 			renderer.render(er, sd, imports);
 			sd.drawLineBreak();
 		}
@@ -1560,7 +1562,7 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 			GroupAction ga = new GroupAction();
 			// methods or fields involved
 			@SuppressWarnings("unchecked")
-			List<Transferrable> transferrables = (List) data;
+			List<Transferrable> transferrables = (List<Transferrable>) data;
 			for (Transferrable transferrable : transferrables) {
 				if (transferrable instanceof TransferrableField) {
 					TransferrableField field = (TransferrableField) transferrable;
@@ -1651,7 +1653,7 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 	
 	public void setExecutionRow(String methodName, Descriptor desc, Integer pc) {
 		clearExecutionRow();
-		List methods = this.classDef.getMethods();
+		List<MethodDefRow> methods = this.classDef.getMethods();
 		for (int i = 0; i < methods.size(); i++) {
 			MethodDefRow mdr = (MethodDefRow) methods.get(i);
 			if (mdr.getMethod().getName().equals(methodName)

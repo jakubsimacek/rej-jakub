@@ -303,7 +303,8 @@ public class InstructionEditor extends JDialog implements LayoutChangeListener {
 		return this.instruction;
 	}
 
-	public List getChoosers() {
+	// TODO: Get rid of Object
+	public List<Object> getChoosers() {
 		return this.choosers;
 	}
 	

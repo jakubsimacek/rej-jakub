@@ -34,6 +34,8 @@ import javax.swing.JScrollPane;
 import net.sf.rej.files.ClassIndex;
 import net.sf.rej.files.ClassLocator;
 import net.sf.rej.gui.SystemFacade;
+import net.sf.rej.jakub.ExceptionContainerHelper;
+import net.sf.rej.jakub.JavaTypeContainerHelper;
 import net.sf.rej.java.JavaType;
 
 @SuppressWarnings("serial")
@@ -52,7 +54,7 @@ public class ExceptionChooseDialog extends JDialog {
 	private JButton editButton = null;
 	private JButton removeButton = null;
 
-	DefaultListModel model = new DefaultListModel();
+	DefaultListModel<ExceptionContainerHelper> model = new DefaultListModel<>();
 	boolean cancelled = false;
 
 	/**
@@ -111,7 +113,7 @@ public class ExceptionChooseDialog extends JDialog {
 	 */
 	private JList<JavaType> getParamList() {
 		if (paramList == null) {
-			paramList = new JList<JavaType>(this.model);
+			paramList = new JList<ExceptionContainerHelper>(this.model);
 		}
 		return paramList;
 	}
@@ -329,7 +331,7 @@ public class ExceptionChooseDialog extends JDialog {
 		return removeButton;
 	}
 
-	public void invoke(List<JavaType> params) {
+	public void invoke(List<ExceptionContainerHelper> params) {
 		this.model.removeAllElements();
 		for (int i=0; i < params.size(); i++) {
 			this.model.addElement(params.get(i));
@@ -342,10 +344,10 @@ public class ExceptionChooseDialog extends JDialog {
 		return this.cancelled;
 	}
 
-	public List<JavaType> getExceptions() {
+	public List<ExceptionContainerHelper> getExceptions() {
 		//return Arrays.asList(this.model.toArray());
-		JavaType[] javaTypes = (JavaType[]) this.model.toArray();
-		return new ArrayList<JavaType>(Arrays.asList(javaTypes));
+		ExceptionContainerHelper[] javaTypes = (ExceptionContainerHelper[]) this.model.toArray();
+		return new ArrayList<ExceptionContainerHelper>(Arrays.asList(javaTypes));
 	}
 
 }
