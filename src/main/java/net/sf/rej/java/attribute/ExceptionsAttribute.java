@@ -19,6 +19,7 @@ package net.sf.rej.java.attribute;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.rej.jakub.ExceptionDescriptorContainerHelper;
 import net.sf.rej.java.constantpool.ConstantPool;
 import net.sf.rej.util.ByteArrayByteParser;
 import net.sf.rej.util.ByteParser;
@@ -26,13 +27,13 @@ import net.sf.rej.util.ByteSerializer;
 
 public class ExceptionsAttribute extends Attribute {
 
-    private List<ExceptionDescriptor> exceptions = new ArrayList<ExceptionDescriptor>();
+    private List<ExceptionDescriptorContainerHelper> exceptions = new ArrayList<>();
 
     public ExceptionsAttribute(int nameIndex, ConstantPool pool) {
         super(nameIndex, pool);
     }
 
-    public ExceptionsAttribute(int nameIndex, ConstantPool pool, List<ExceptionDescriptor> exceptions) {
+    public ExceptionsAttribute(int nameIndex, ConstantPool pool, List<ExceptionDescriptorContainerHelper> exceptions) {
     	super(nameIndex, pool);
     	this.exceptions.addAll(exceptions);
     }
@@ -41,7 +42,7 @@ public class ExceptionsAttribute extends Attribute {
 	public byte[] getPayload() {
         ByteSerializer ser = new ByteSerializer(true);
         ser.addShort(this.exceptions.size());
-    	for (ExceptionDescriptor ex : this.exceptions) {
+    	for (ExceptionDescriptorContainerHelper ex : this.exceptions) {
     		ser.addShort(ex.getIndex());
     	}
 
@@ -59,8 +60,8 @@ public class ExceptionsAttribute extends Attribute {
         }
     }
 
-    public List<ExceptionDescriptor> getExceptions() {
-        List<ExceptionDescriptor> list = new ArrayList<ExceptionDescriptor>();
+    public List<ExceptionDescriptorContainerHelper> getExceptions() {
+        List<ExceptionDescriptorContainerHelper> list = new ArrayList<>();
         list.addAll(this.exceptions);
         return list;
     }

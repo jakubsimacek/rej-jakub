@@ -1083,7 +1083,7 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
                     group.add(new ParamModifyAction(instruction, i, chooser.getValue()));
                 } else {
                     MethodLocator ml = (MethodLocator)obj;
-                    String className = ml.getClassLocator().getFullName();
+                    String className = ml.getClassLocator().getFullName().toString();
                     String methodName = ml.getMethod().getName();
                     String typeName = ml.getMethod().getDescriptor().getRawDesc();
                     int index = this.cf.getPool().indexOfMethodRef(className, methodName, typeName);

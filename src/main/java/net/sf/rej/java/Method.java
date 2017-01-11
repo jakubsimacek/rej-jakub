@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.rej.jakub.ExceptionDescriptorContainerHelper;
 import net.sf.rej.java.attribute.Attributes;
 import net.sf.rej.java.attribute.ExceptionDescriptor;
 import net.sf.rej.java.attribute.ExceptionsAttribute;
@@ -213,10 +214,10 @@ public class Method implements DescriptorEnabled {
         this.accessFlags = accessFlags.getValue();
     }
 
-    public List<ExceptionDescriptor> getExceptions() {
+    public List<ExceptionDescriptorContainerHelper> getExceptions() {
         ExceptionsAttribute ea = this.attributes.getExceptionsAttribute();
         if (ea == null) {
-            return new ArrayList<ExceptionDescriptor>();
+            return new ArrayList<ExceptionDescriptorContainerHelper>();
         } else {
             return ea.getExceptions();
         }

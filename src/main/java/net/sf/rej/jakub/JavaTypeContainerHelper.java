@@ -1,5 +1,5 @@
 package net.sf.rej.jakub;
 
-public interface JavaTypeContainerHelper {
+public interface JavaTypeContainerHelper extends RootContainerHelper {
 
 }

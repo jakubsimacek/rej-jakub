@@ -8,5 +8,7 @@ public class StringContainerHelperImpl implements StringContainerHelper {
 		this.string = string;
 	}
 	
-	
+	public String toString() {
+		return this.string;
+	}
 }

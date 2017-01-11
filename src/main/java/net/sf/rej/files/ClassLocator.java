@@ -19,10 +19,11 @@ package net.sf.rej.files;
 import java.io.Serializable;
 
 import net.sf.rej.jakub.StringContainerHelper;
+import net.sf.rej.jakub.StringContainerHelperImpl;
 
 
+@SuppressWarnings("serial")
 public class ClassLocator implements Serializable {
-	public static final long serialVersionUID = 1;
 
     private StringContainerHelper shortName = null;
     private String pkg = "";
@@ -41,7 +42,7 @@ public class ClassLocator implements Serializable {
 
     private void getData(String longName) {
         int lastDot = longName.lastIndexOf(".");
-        this.shortName = longName.substring(lastDot + 1);
+        this.shortName = new StringContainerHelperImpl(longName.substring(lastDot + 1));
         if (lastDot != -1) {
             this.pkg = longName.substring(0, lastDot);
         }
@@ -69,14 +70,14 @@ public class ClassLocator implements Serializable {
 
     @Override
 	public String toString() {
-        return getShortName();
+        return getShortName().toString();
     }
 
     public StringContainerHelper getFullName() {
         if (this.pkg.length() == 0) {
             return getShortName();
         } else {
-            return getPackage() + "." + getShortName();
+            return new StringContainerHelperImpl(getPackage() + "." + getShortName());
         }
     }
 

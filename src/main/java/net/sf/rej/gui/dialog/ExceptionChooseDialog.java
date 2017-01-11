@@ -35,14 +35,13 @@ import net.sf.rej.files.ClassIndex;
 import net.sf.rej.files.ClassLocator;
 import net.sf.rej.gui.SystemFacade;
 import net.sf.rej.jakub.ExceptionContainerHelper;
-import net.sf.rej.jakub.JavaTypeContainerHelper;
-import net.sf.rej.java.JavaType;
+import net.sf.rej.jakub.RootContainerHelper;
 
 @SuppressWarnings("serial")
 public class ExceptionChooseDialog extends JDialog {
 
 	private JPanel jContentPane = null;
-	JList<JavaType> paramList = null;
+	JList<RootContainerHelper> paramList = null;
 	private JButton moveDownButton = null;
 	private JPanel movePanel = null;
 	private JButton moveUpButton = null;
@@ -54,7 +53,7 @@ public class ExceptionChooseDialog extends JDialog {
 	private JButton editButton = null;
 	private JButton removeButton = null;
 
-	DefaultListModel<ExceptionContainerHelper> model = new DefaultListModel<>();
+	DefaultListModel<RootContainerHelper> model = new DefaultListModel<>();
 	boolean cancelled = false;
 
 	/**
@@ -111,9 +110,9 @@ public class ExceptionChooseDialog extends JDialog {
 	 *
 	 * @return javax.swing.JList
 	 */
-	private JList<JavaType> getParamList() {
+	private JList<RootContainerHelper> getParamList() {
 		if (paramList == null) {
-			paramList = new JList<ExceptionContainerHelper>(this.model);
+			paramList = new JList<RootContainerHelper>(this.model);
 		}
 		return paramList;
 	}
@@ -129,7 +128,7 @@ public class ExceptionChooseDialog extends JDialog {
 			moveDownButton.setText("Move Down");
 			moveDownButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					JavaType jt = (JavaType)ExceptionChooseDialog.this.paramList.getSelectedValue();
+					ExceptionContainerHelper jt = (ExceptionContainerHelper) ExceptionChooseDialog.this.paramList.getSelectedValue();
 					if (jt != null) {
 						int index = ExceptionChooseDialog.this.paramList.getSelectedIndex();
 						if (index < (ExceptionChooseDialog.this.model.size()-1)) {
@@ -175,7 +174,7 @@ public class ExceptionChooseDialog extends JDialog {
 			moveUpButton.setText("Move Up");
 			moveUpButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					JavaType jt = (JavaType)ExceptionChooseDialog.this.paramList.getSelectedValue();
+					ExceptionContainerHelper jt = (ExceptionContainerHelper)ExceptionChooseDialog.this.paramList.getSelectedValue();
 					if (jt != null) {
 						int index = ExceptionChooseDialog.this.paramList.getSelectedIndex();
 						if (index > 0) {
