@@ -22,6 +22,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -35,6 +36,7 @@ import net.sf.rej.files.ClassIndex;
 import net.sf.rej.files.ClassLocator;
 import net.sf.rej.gui.SystemFacade;
 import net.sf.rej.jakub.ExceptionContainerHelper;
+import net.sf.rej.jakub.ExceptionDescriptorContainerHelper;
 import net.sf.rej.jakub.RootContainerHelper;
 
 @SuppressWarnings("serial")
@@ -330,7 +332,7 @@ public class ExceptionChooseDialog extends JDialog {
 		return removeButton;
 	}
 
-	public void invoke(List<ExceptionContainerHelper> params) {
+	public void invoke(List<ExceptionDescriptorContainerHelper> params) {
 		this.model.removeAllElements();
 		for (int i=0; i < params.size(); i++) {
 			this.model.addElement(params.get(i));
@@ -343,10 +345,10 @@ public class ExceptionChooseDialog extends JDialog {
 		return this.cancelled;
 	}
 
-	public List<ExceptionContainerHelper> getExceptions() {
+	public List<ExceptionDescriptorContainerHelper> getExceptions() {
 		//return Arrays.asList(this.model.toArray());
 		ExceptionContainerHelper[] javaTypes = (ExceptionContainerHelper[]) this.model.toArray();
-		return new ArrayList<ExceptionContainerHelper>(Arrays.asList(javaTypes));
+		return new ArrayList<ExceptionDescriptorContainerHelper>((Collection<? extends ExceptionDescriptorContainerHelper>) Arrays.asList(javaTypes));
 	}
 
 }

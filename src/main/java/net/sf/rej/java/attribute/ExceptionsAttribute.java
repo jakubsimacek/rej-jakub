@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.rej.jakub.ExceptionDescriptorContainerHelper;
+import net.sf.rej.jakub.ExceptionDescriptorContainerHelperImpl;
 import net.sf.rej.java.constantpool.ConstantPool;
 import net.sf.rej.util.ByteArrayByteParser;
 import net.sf.rej.util.ByteParser;
@@ -43,7 +44,7 @@ public class ExceptionsAttribute extends Attribute {
         ByteSerializer ser = new ByteSerializer(true);
         ser.addShort(this.exceptions.size());
     	for (ExceptionDescriptorContainerHelper ex : this.exceptions) {
-    		ser.addShort(ex.getIndex());
+    		ser.addShort(ex.getExceptionDescriptor().getIndex());
     	}
 
         return ser.getBytes();
@@ -56,7 +57,7 @@ public class ExceptionsAttribute extends Attribute {
         int numberOfExceptions = parser.getShortAsInt();
         for (int i = 0; i < numberOfExceptions; i++) {
         	int index = parser.getShortAsInt();
-            this.exceptions.add(new ExceptionDescriptor(pool, index));
+            this.exceptions.add(new ExceptionDescriptorContainerHelperImpl(new ExceptionDescriptor(pool, index)));
         }
     }
 
@@ -70,7 +71,7 @@ public class ExceptionsAttribute extends Attribute {
 	public String toString() {
     	StringBuffer sb = new StringBuffer();
     	sb.append("Exceptions (");
-    	for (ExceptionDescriptor ex : this.exceptions) {
+    	for (ExceptionDescriptorContainerHelper ex : this.exceptions) {
     		if (sb.length() > 0) {
     			sb.append(", ");
     		}

@@ -112,6 +112,7 @@ import net.sf.rej.gui.event.EventDispatcher;
 import net.sf.rej.gui.event.EventObserver;
 import net.sf.rej.gui.event.EventType;
 import net.sf.rej.gui.split.BytecodeSplitSynchronizer;
+import net.sf.rej.jakub.ExceptionDescriptorContainerHelper;
 import net.sf.rej.java.AccessFlags;
 import net.sf.rej.java.ClassFactory;
 import net.sf.rej.java.ClassFile;
@@ -457,7 +458,7 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 			Integer initialMaxStack = Integer.valueOf(1);
 			Integer initialMaxLocals = Integer.valueOf(1);
 			editor.invoke("method1", Descriptor.NO_PARAM_VOID, initialFlags,
-					initialMaxStack, initialMaxLocals, new ArrayList());
+					initialMaxStack, initialMaxLocals, new ArrayList<ExceptionDescriptorContainerHelper>());
 			if (!editor.wasCancelled()) {
 				EditorFacade.getInstance().insertMethod(
 						EditorTab.this.classDef.getClassFile(),
@@ -1104,7 +1105,7 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
                     group.add(new ParamModifyAction(instruction, i, chooser.getValue()));
                 } else {
                     FieldLocator fl = (FieldLocator)obj;
-                    String className = fl.getClassLocator().getFullName();
+                    String className = fl.getClassLocator().getFullName().getString();
                     String fieldName = fl.getField().getName();
                     String typeName = fl.getField().getDescriptor().getRawDesc();
                     int index = this.cf.getPool().indexOfFieldRef(className, fieldName, typeName);
@@ -1424,8 +1425,8 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 				if (!mdr.isClosing()) {
 					Method method = mdr.getMethod();
 					List<String> exceptionNames = new ArrayList<String>();
-					for (ExceptionDescriptor ex : method
-							.getExceptions()) {
+					for (ExceptionDescriptorContainerHelper exch : method.getExceptions()) {
+						ExceptionDescriptor ex = exch.getExceptionDescriptor();
 						exceptionNames.add(ex.getName());
 					}
 					// TODO: Attributes are not being copied
@@ -1741,7 +1742,7 @@ public class EditorTab extends JPanel implements Tabbable, EventObserver, Transf
 			MethodFactory methodFactory = new MethodFactory();
 			for (IMethod method : rt.visibleMethods()) {
 				AccessFlags flags = new AccessFlags(method.modifiers());
-				net.sf.rej.java.Method methodToAdd = methodFactory.createMethod(cf, flags, cp.optionalAddUtf8(method.name()), cp.optionalAddUtf8(method.signature()), cp.optionalAddUtf8("Code"), 0, 0, cp.optionalAddUtf8("Exceptions"), new ArrayList<ExceptionDescriptor>());
+				net.sf.rej.java.Method methodToAdd = methodFactory.createMethod(cf, flags, cp.optionalAddUtf8(method.name()), cp.optionalAddUtf8(method.signature()), cp.optionalAddUtf8("Code"), 0, 0, cp.optionalAddUtf8("Exceptions"), new ArrayList<ExceptionDescriptorContainerHelper>());
 				cf.add(methodToAdd);
 			}
 

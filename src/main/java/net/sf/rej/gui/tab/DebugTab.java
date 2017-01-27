@@ -531,7 +531,7 @@ public class DebugTab extends JPanel implements Tabbable, EventObserver {
 					ccd.invoke();
 					ClassLocator locator = ccd.getSelected();
 					if (locator != null) {
-						DebugTab.this.mainClassField.setText(locator.getFullName());
+						DebugTab.this.mainClassField.setText(locator.getFullName().getString());
 					}
 				}
 			});

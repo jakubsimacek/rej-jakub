@@ -30,7 +30,8 @@ import javax.swing.event.ListDataListener;
 public class OrderedFilterListModel implements ListModel {
 
     private List<ListDataListener> listeners = new ArrayList<ListDataListener>();
-
+    
+//TODO: real generics?
     private List<Object> original = new ArrayList<Object>();
     private List<Object> filtered = new ArrayList<Object>();
     private String filter = "";
@@ -44,8 +45,7 @@ public class OrderedFilterListModel implements ListModel {
         }
     };
 
-	@SuppressWarnings("unchecked")
-    public OrderedFilterListModel(Collection c) {
+    public OrderedFilterListModel(Collection<? extends Object> c) {
         this.original.addAll(c);
         sort();
         this.filtered.addAll(this.original);

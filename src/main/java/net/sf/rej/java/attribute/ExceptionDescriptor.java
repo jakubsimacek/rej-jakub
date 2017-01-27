@@ -16,10 +16,9 @@
  */
 package net.sf.rej.java.attribute;
 
-import net.sf.rej.jakub.ExceptionContainerHelper;
 import net.sf.rej.java.constantpool.ConstantPool;
 
-public class ExceptionDescriptor implements ExceptionContainerHelper {
+public class ExceptionDescriptor {
 	private int index;
 	private ConstantPool cp;
 

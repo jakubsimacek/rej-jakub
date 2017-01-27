@@ -59,12 +59,12 @@ public class StructureNode implements TreeNode {
 		return getChildren().indexOf(node);
 	}
 
-	public Enumeration children() {
-		return new Enumerator(getChildren());
+	public Enumeration<StructureNode> children() {
+		return new Enumerator<>(getChildren());
 	}
 
-	public List getChildren() {
-		return new ArrayList();
+	public List<StructureNode> getChildren() {
+		return new ArrayList<>();
 	}
 
 	public JPopupMenu getContextMenu() {

@@ -59,7 +59,7 @@ public class ClassEditor extends JDialog {
             ccd.invoke();
             ClassLocator cl = ccd.getSelected();
             if (cl != null) {
-            	ClassEditor.this.superField.setText(cl.getFullName());
+            	ClassEditor.this.superField.setText(cl.getFullName().getString());
             }
 		}
 

@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.rej.gui.Undoable;
+import net.sf.rej.jakub.ExceptionDescriptorContainerHelper;
+import net.sf.rej.jakub.ExceptionDescriptorContainerHelperImpl;
 import net.sf.rej.java.AccessFlags;
 import net.sf.rej.java.ClassFile;
 import net.sf.rej.java.Code;
@@ -88,7 +90,7 @@ public class InsertMethodAction implements Undoable {
             this.createdPoolItems.add(exAttrNameIndex);
         }
 
-        List<ExceptionDescriptor> exceptionList = new ArrayList<ExceptionDescriptor>();
+        List<ExceptionDescriptorContainerHelper> exceptionList = new ArrayList<>();
         for (int i=0; i < this.exceptionNames.size(); i++) {
         	String exceptionName = this.exceptionNames.get(i);
         	int exIndex = cp.indexOfClassRef(exceptionName);
@@ -96,7 +98,7 @@ public class InsertMethodAction implements Undoable {
         		exIndex = cp.forceAddClassRef(exceptionName);
                 this.createdPoolItems.add(exIndex);
         	}
-        	exceptionList.add(new ExceptionDescriptor(cp, exIndex));
+        	exceptionList.add(new ExceptionDescriptorContainerHelperImpl(new ExceptionDescriptor(cp, exIndex)));
         }
 
         this.method = methodFactory.createMethod(this.cf, this.accessFlags, nameIndex, descIndex, codeAttrNameIndex, this.maxStackSize, this.maxLocals, exAttrNameIndex, exceptionList);

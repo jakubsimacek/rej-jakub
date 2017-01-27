@@ -39,6 +39,7 @@ import net.sf.rej.gui.dialog.ExceptionChooseDialog;
 import net.sf.rej.gui.dialog.ParameterChooseDialog;
 import net.sf.rej.gui.dialog.TypeChooseDialog;
 import net.sf.rej.jakub.ExceptionContainerHelper;
+import net.sf.rej.jakub.ExceptionDescriptorContainerHelper;
 import net.sf.rej.java.AccessFlags;
 import net.sf.rej.java.Descriptor;
 import net.sf.rej.java.JavaType;
@@ -80,7 +81,7 @@ public class MethodEditor extends JDialog {
 
     Descriptor desc = null;
     // TODO: Get rid of Object
-    List<ExceptionContainerHelper> exceptions = new ArrayList<ExceptionContainerHelper>();
+    List<ExceptionDescriptorContainerHelper> exceptions = new ArrayList<ExceptionDescriptorContainerHelper>();
 
     JCheckBox nativeCheck = new JCheckBox("native");
     JCheckBox publicCheck = new JCheckBox("public");
@@ -184,7 +185,7 @@ public class MethodEditor extends JDialog {
     	return sb.toString();
     }
 
-    public void invoke(String name, Descriptor desc, int flags, Integer maxStackSize, Integer maxLocals, List<ExceptionContainerHelper> exceptions) {
+    public void invoke(String name, Descriptor desc, int flags, Integer maxStackSize, Integer maxLocals, List<ExceptionDescriptorContainerHelper> exceptions) {
     	this.exceptions = exceptions;
     	this.exceptionsField.setText(listToText(this.exceptions));
     	this.desc = desc;

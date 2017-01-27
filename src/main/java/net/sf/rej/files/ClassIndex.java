@@ -286,7 +286,7 @@ public class ClassIndex {
     	List<ClassLocator> locators = this.indices.get(fs);
     	List<String> classNames = new ArrayList<String>(locators.size());
     	for (ClassLocator locator : locators) {
-    		classNames.add(locator.getFullName());
+    		classNames.add(locator.getFullName().toString());
     	}
     	
     	return classNames;

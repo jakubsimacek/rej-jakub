@@ -61,7 +61,7 @@ public class MethodChooser extends JPanel {
                     className = ri.getClassName();
                 } else {
                     MethodLocator ml = (MethodLocator) wrapper.getContent();
-                    className = ml.getClassLocator().getFullName();
+                    className = ml.getClassLocator().getFullName().getString();
                 }
             } else {
                 // TODO: other types?
@@ -74,7 +74,7 @@ public class MethodChooser extends JPanel {
             if(cl != null && method != null) {
                 Wrapper<MethodLocator> wrapper = new Wrapper<MethodLocator>();
                 wrapper.setContent(new MethodLocator(cl, method));
-                wrapper.setDisplay(method.getSignatureLine(cl.getFullName()));
+                wrapper.setDisplay(method.getSignatureLine(cl.getFullName().getString()));
                 MethodChooser.this.model.addElement(wrapper);
                 MethodChooser.this.combo.setSelectedItem(wrapper);
                 if (layoutChangeListener != null) {

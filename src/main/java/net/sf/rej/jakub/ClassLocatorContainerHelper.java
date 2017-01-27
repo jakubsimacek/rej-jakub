@@ -1,5 +1,7 @@
 package net.sf.rej.jakub;
 
-public interface ClassLocatorContainerHelper extends JavaTypeContainerHelper {
+import net.sf.rej.files.ClassLocator;
 
+public interface ClassLocatorContainerHelper extends JavaTypeContainerHelper {
+	ClassLocator getClassLocator();
 }

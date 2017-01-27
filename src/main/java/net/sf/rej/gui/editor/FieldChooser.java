@@ -63,7 +63,7 @@ public class FieldChooser extends JPanel {
                     className = ri.getClassName();
                 } else {
                     MethodLocator ml = (MethodLocator) wrapper.getContent();
-                    className = ml.getClassLocator().getFullName();
+                    className = ml.getClassLocator().getFullName().getString();
                 }
             } else {
                 // TODO: other types?
@@ -76,7 +76,7 @@ public class FieldChooser extends JPanel {
             if(cl != null && field != null) {
                 Wrapper<FieldLocator> wrapper = new Wrapper<FieldLocator>();
                 wrapper.setContent(new FieldLocator(cl, field));
-                wrapper.setDisplay(field.getSignatureLine(cl.getFullName()));
+                wrapper.setDisplay(field.getSignatureLine(cl.getFullName().getString()));
                 FieldChooser.this.model.addElement(wrapper);
                 FieldChooser.this.combo.setSelectedItem(wrapper);
                 if (layoutChangeListener != null) {

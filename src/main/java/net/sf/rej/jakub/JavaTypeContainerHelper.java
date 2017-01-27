@@ -1,5 +1,7 @@
 package net.sf.rej.jakub;
 
-public interface JavaTypeContainerHelper extends RootContainerHelper {
+import net.sf.rej.java.JavaType;
 
+public interface JavaTypeContainerHelper extends RootContainerHelper {
+	JavaType getJavaType();
 }

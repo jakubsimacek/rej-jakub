@@ -265,7 +265,7 @@ public class TypeChooseDialog extends JDialog {
 			name = (String)item;
 		} else {
 			ClassLocator cl = (ClassLocator)item;
-			name = cl.getFullName();
+			name = cl.getFullName().getString();
 		}
 
 		int dimensions = 0;

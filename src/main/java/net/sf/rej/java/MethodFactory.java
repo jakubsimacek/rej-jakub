@@ -18,6 +18,7 @@ package net.sf.rej.java;
 
 import java.util.List;
 
+import net.sf.rej.jakub.ExceptionDescriptorContainerHelper;
 import net.sf.rej.java.attribute.Attributes;
 import net.sf.rej.java.attribute.CodeAttribute;
 import net.sf.rej.java.attribute.ExceptionDescriptor;
@@ -40,7 +41,7 @@ public class MethodFactory {
         return new Method(parser, pool);
     }
 
-    public Method createMethod(ClassFile cf, AccessFlags accessFlags, int nameIndex, int descIndex, int codeAttrNameIndex, int maxStackSize, int maxLocals, int exAttrNameIndex, List<ExceptionDescriptor> exceptions) {
+    public Method createMethod(ClassFile cf, AccessFlags accessFlags, int nameIndex, int descIndex, int codeAttrNameIndex, int maxStackSize, int maxLocals, int exAttrNameIndex, List<ExceptionDescriptorContainerHelper> exceptions) {
         ConstantPool cp = cf.getPool();
         Method method = new Method(cp);
         method.setAccessFlags(accessFlags);
